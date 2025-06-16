@@ -41,15 +41,15 @@ pipeline {
                     ],
                     'databases': [
                         'goals': [
-                            'db_host': 'staging-sakila-cluster.cluster-cfw7dinebswj.us-east-1.rds.amazonaws.com',
+                            'db_host': "staging-sakila-cluster.cluster-cfw7dinebswj.us-east-1.rds.amazonaws.com",
                             'db_user': "$STG_TINYPULSE_GOALS_USR",
                             'db_pass': "$STG_TINYPULSE_GOALS_PSW",
                         ],
                         'engage': [
-                            'db_host': 'staging-engage-db-cluster.cluster-ro-cfw7dinebswj.us-east-1.rds.amazonaws.com'
+                            'db_host': "staging-engage-db-cluster.cluster-ro-cfw7dinebswj.us-east-1.rds.amazonaws.com",
                             'db_user': "$STG_TINYPULSE_ENGAGE_USR",
                             'db_pass': "$STG_TINYPULSE_ENGAGE_PSW",
-                        ]
+                        ],
                     ],
                 )
             }

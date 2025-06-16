@@ -1,7 +1,7 @@
 sources:
 - host: ENV:ENGAGE_DB_HOST
   user: ENV:ENGAGE_DB_USER
-  password: ENV:ENGAGE_DB_PSW
+  password: ENV:ENGAGE_DB_PASS
   databases:
     tinypulse_production:
       filter: []

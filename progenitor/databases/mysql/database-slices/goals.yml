@@ -1,7 +1,7 @@
 sources:
 - host: ENV:GOALS_DB_HOST
   user: ENV:GOALS_DB_USER
-  password: ENV:GOALS_DB_PSW
+  password: ENV:GOALS_DB_PASS
   databases:
     staging_goals:
       filter: []

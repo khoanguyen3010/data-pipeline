@@ -1,5 +1,5 @@
 @Library(['db_builder@tinypulse-aws-replica', 'jenkins-notifications']) _
-setEnvironment(['business_unit': 'tinypulse'])
+setEnvironment(['business_unit': 'stg-tinypulse'])
 
 pipeline {
     agent none

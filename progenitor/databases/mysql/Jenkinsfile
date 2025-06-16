@@ -1,0 +1,66 @@
+@Library(['db_builder@tinypulse-aws-replica', 'jenkins-notifications']) _
+setEnvironment(['business_unit': 'tinypulse'])
+
+pipeline {
+    agent none
+
+    parameters {
+        booleanParam(name: 'continueOnError', defaultValue: false, description: 'Continue build on error')
+        booleanParam(name: 'debug', defaultValue: false, description: 'Debug mode')
+        booleanParam(
+            name: 'one_file_per_slice',
+            defaultValue: params.one_file_per_slice ?: false,
+            description: 'Set to true when dumping slices, false for an omnibus dump',
+        )
+    }
+
+    stages {
+        stage('Dump Database') {
+            environment {
+                MAX_ALLOWED_PACKET = '2147483648'
+                TINYPULSE_CREDENTIALS = credentials('tinypulse-db-exporter')
+                STG_TINYPULSE_GOALS = credentials('stg-tinypulse-goals')
+                STG_TINYPULSE_ENGAGE = credentials('stg-tinypulse-engage')
+            }
+
+            agent any
+            steps {
+                dumpDatabase(
+                    'engine': 'mysql',
+                    'engine_version': '8.0.34',
+                    'env_vars': [
+                        'max_allowed_packet': "$MAX_ALLOWED_PACKET",
+                        'enable_dependencies': "$one_file_per_slice",
+                    ],
+                    'mysql_command': [
+                        "--max_allowed_packet=\$MAX_ALLOWED_PACKET",
+                    ],
+                    'database_slices': [
+                        './database-slices/engage.yml',
+                        './database-slices/goals.yml',
+                    ],
+                    'databases': [
+                        'goals': [
+                            'db_host': 'staging-sakila-cluster.cluster-cfw7dinebswj.us-east-1.rds.amazonaws.com',
+                            'db_user': "$STG_TINYPULSE_GOALS_USR",
+                            'db_pass': "$STG_TINYPULSE_GOALS_PSW",
+                        ],
+                        'engage': [
+                            'db_host': 'staging-engage-db-cluster.cluster-ro-cfw7dinebswj.us-east-1.rds.amazonaws.com'
+                            'db_user': "$STG_TINYPULSE_ENGAGE_USR",
+                            'db_pass': "$STG_TINYPULSE_ENGAGE_PSW",
+                        ]
+                    ],
+                )
+            }
+        }
+    }
+
+    post {
+        always {
+            progenitorJobAlert()
+        }
+    }
+
+}
+

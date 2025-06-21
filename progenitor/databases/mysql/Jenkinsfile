@@ -1,5 +1,5 @@
 @Library(['db_builder@tinypulse-aws-replica', 'jenkins-notifications']) _
-setEnvironment(['business_unit': 'stg-tinypulse'])
+setEnvironment(['business_unit': 'tinypulse'])
 
 pipeline {
     agent none
@@ -21,6 +21,9 @@ pipeline {
                 TINYPULSE_CREDENTIALS = credentials('tinypulse-db-exporter')
                 STG_TINYPULSE_GOALS = credentials('stg-tinypulse-goals')
                 STG_TINYPULSE_ENGAGE = credentials('stg-tinypulse-engage')
+                STG_TINYPULSE_COACH = credentials('stg-tinypulse-coach')
+                STG_TINYPULSE_SURVEY_NOTIFIER = credentials('stg-tinypulse-survey-notifier')
+                STG_TINYPULSE_KDA = credentials('stg-tinypulse-kda')
             }
 
             agent any
@@ -38,17 +41,35 @@ pipeline {
                     'database_slices': [
                         './database-slices/engage.yml',
                         './database-slices/goals.yml',
+                        './database-slices/coach.yml',
+                        './database-slices/survey_notifier.yml',
+                        './database-slices/kda.yml',
                     ],
                     'databases': [
+                        'engage': [
+                            'db_host': "staging-engage-db-cluster.cluster-ro-cfw7dinebswj.us-east-1.rds.amazonaws.com",
+                            'db_user': "$STG_TINYPULSE_ENGAGE_USR",
+                            'db_pass': "$STG_TINYPULSE_ENGAGE_PSW",
+                        ],
                         'goals': [
                             'db_host': "staging-sakila-cluster.cluster-cfw7dinebswj.us-east-1.rds.amazonaws.com",
                             'db_user': "$STG_TINYPULSE_GOALS_USR",
                             'db_pass': "$STG_TINYPULSE_GOALS_PSW",
                         ],
-                        'engage': [
-                            'db_host': "staging-engage-db-cluster.cluster-ro-cfw7dinebswj.us-east-1.rds.amazonaws.com",
-                            'db_user': "$STG_TINYPULSE_ENGAGE_USR",
-                            'db_pass': "$STG_TINYPULSE_ENGAGE_PSW",
+                        'coach': [
+                            'db_host': "staging-sakila-cluster.cluster-cfw7dinebswj.us-east-1.rds.amazonaws.com",
+                            'db_user': "$STG_TINYPULSE_COACH_USR",
+                            'db_pass': "$STG_TINYPULSE_COACH_PSW",
+                        ],
+                        'survey_notifier': [
+                            'db_host': "staging-sakila-cluster.cluster-cfw7dinebswj.us-east-1.rds.amazonaws.com",
+                            'db_user': "$STG_TINYPULSE_SURVEY_NOTIFIER_USR",
+                            'db_pass': "$STG_TINYPULSE_SURVEY_NOTIFIER_PSW",
+                        ],
+                        'kda': [
+                            'db_host': "development-internal.cfw7dinebswj.us-east-1.rds.amazonaws.com",
+                            'db_user': "$STG_TINYPULSE_KDA_USR",
+                            'db_pass': "$STG_TINYPULSE_KDA_PSW",
                         ],
                     ],
                 )

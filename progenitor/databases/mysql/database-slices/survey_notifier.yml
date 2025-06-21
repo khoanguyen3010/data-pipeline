@@ -1,0 +1,9 @@
+sources:
+- host: ENV:SURVEY_NOTIFIER_DB_HOST
+  user: ENV:SURVEY_NOTIFIER_DB_USER
+  password: ENV:SURVEY_NOTIFIER_DB_PASS
+  databases:
+    staging_coach:
+      filter: []
+      exclude: []
+      truncate: []

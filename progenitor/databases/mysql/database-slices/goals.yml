@@ -6,32 +6,4 @@ sources:
     staging_goals:
       filter: []
       exclude: []
-      truncate: 
-        - audit_logs
-        - ahoy_messages
-        - visits
-        - devices
-        - accomplishments
-        - notifications
-        - app_connect_items
-        - app_connects
-        - app_connects_receivers
-        - app_connects_receivers_app_links
-        - app_connects_receivers_apps
-        - app_connects_receivers_external_goals
-        - app_connects_receivers_goals_external_tasks
-        - access_tokens
-        - connectors
-        - integrations_sftp_connections
-        - integrations_sftp_csv_field_mappings
-        - integrations_sftp_csv_filter_mappings
-        - integrations_sftp_key_authentications
-        - integrations_sftp_password_authentications
-        - sentence_analytics
-        - data_export_downloads
-        - data_exports
-        - billing_contacts
-        - hris_employees
-        - oauth_authorizations
-        - tango_integrations
-        - saml_settings
+      truncate: []

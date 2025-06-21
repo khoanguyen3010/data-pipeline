@@ -1,0 +1,10 @@
+sources:
+- host: ENV:NOTES_DB_HOST
+  user: ENV:NOTES_DB_USER
+  password: ENV:NOTES_DB_PASS
+  databases:
+    ad_engine:
+      schemas:
+        ad_engine:
+          truncate: []
+          exclude: []

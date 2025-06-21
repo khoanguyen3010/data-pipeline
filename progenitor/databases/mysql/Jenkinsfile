@@ -42,8 +42,7 @@ pipeline {
                         './database-slices/engage.yml',
                         './database-slices/goals.yml',
                         './database-slices/coach.yml',
-                        './database-slices/survey_notifier.yml',
-                        './database-slices/kda.yml',
+                        './database-slices/survey_notifier.yml',    
                     ],
                     'databases': [
                         'engage': [
@@ -65,11 +64,6 @@ pipeline {
                             'db_host': "staging-sakila-cluster.cluster-cfw7dinebswj.us-east-1.rds.amazonaws.com",
                             'db_user': "$STG_TINYPULSE_SURVEY_NOTIFIER_USR",
                             'db_pass': "$STG_TINYPULSE_SURVEY_NOTIFIER_PSW",
-                        ],
-                        'kda': [
-                            'db_host': "development-internal.cfw7dinebswj.us-east-1.rds.amazonaws.com",
-                            'db_user': "$STG_TINYPULSE_KDA_USR",
-                            'db_pass': "$STG_TINYPULSE_KDA_PSW",
                         ],
                     ],
                 )

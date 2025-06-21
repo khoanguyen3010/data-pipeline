@@ -1,9 +1,0 @@
-sources:
-- host: ENV:KDA_DB_HOST
-  user: ENV:KDA_DB_USER
-  password: ENV:KDA_DB_PASS
-  databases:
-    staging_kda:
-      filter: []
-      exclude: []
-      truncate: []

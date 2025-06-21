@@ -1,5 +1,5 @@
 @Library(['db_builder@tinypulse-aws-replica', 'jenkins-notifications']) _
-setEnvironment(['business_unit': 'stg-tinypulse'])
+setEnvironment(['business_unit': 'tinypulse'])
 
 pipeline {
     agent none
@@ -18,34 +18,47 @@ pipeline {
         stage('Dump Database') {
             environment {
                 MAX_ALLOWED_PACKET = '2147483648'
-                TINYPULSE_CREDENTIALS = credentials('tinypulse-db-exporter')
-                STG_TINYPULSE_GOALS = credentials('stg-tinypulse-goals')
-                STG_TINYPULSE_ENGAGE = credentials('stg-tinypulse-engage')
+                STG_TINYPULSE_PG_NOTES = credentials('stg-tinypulse-pg-notes')
+                STG_TINYPULSE_PG_COACH_STATS = credentials('stg-tinypulse-pg-coach-stats')
+                STG_TINYPULSE_PG_SURVEY_SCHEDULER = credentials('stg-tinypulse-pg-survey-scheduler')
+                STG_TINYPULSE_PG_KDA = credentials('stg-tinypulse-pg-kda')
             }
 
             agent any
             steps {
                 dumpDatabase(
                     'engine': 'postgres',
-                    'engine_version': '8.0.34',
+                    'engine_version': '12.19',
                     'env_vars': [
                         'max_allowed_packet': "$MAX_ALLOWED_PACKET",
                         'enable_dependencies': "$one_file_per_slice",
                     ],
                     'database_slices': [
                         './database-slices/notes.yml',
-                        './database-slices/coach.yml',
+                        './database-slices/coach_stats.yml',
+                        './database-slices/survey_scheduler.yml',
+                        './database-slices/kda.yml',
                     ],
                     'databases': [
-                        'coach': [
-                            'db_host': "staging-sakila-cluster.cluster-cfw7dinebswj.us-east-1.rds.amazonaws.com",
-                            'db_user': "$STG_TINYPULSE_GOALS_USR",
-                            'db_pass': "$STG_TINYPULSE_GOALS_PSW",
-                        ],
                         'notes': [
-                            'db_host': "staging-engage-db-cluster.cluster-ro-cfw7dinebswj.us-east-1.rds.amazonaws.com",
-                            'db_user': "$STG_TINYPULSE_ENGAGE_USR",
-                            'db_pass': "$STG_TINYPULSE_ENGAGE_PSW",
+                            'db_host': "staging-slonik.cfw7dinebswj.us-east-1.rds.amazonaws.com",
+                            'db_user': "$STG_TINYPULSE_PG_NOTES_USR",
+                            'db_pass': "$STG_TINYPULSE_PG_NOTES_PSW",
+                        ],
+                        'coach_stats': [
+                            'db_host': "staging-slonik.cfw7dinebswj.us-east-1.rds.amazonaws.com",
+                            'db_user': "$STG_TINYPULSE_PG_COACH_STATS_USR",
+                            'db_pass': "$STG_TINYPULSE_PG_COACH_STATS_PSW",
+                        ],
+                        'survey_scheduler': [
+                            'db_host': "staging-slonik.cfw7dinebswj.us-east-1.rds.amazonaws.com",
+                            'db_user': "$STG_TINYPULSE_PG_SURVEY_SCHEDULER_USR",
+                            'db_pass': "$STG_TINYPULSE_PG_SURVEY_SCHEDULER_PSW",
+                        ],
+                        'kda': [
+                            'db_host': "development-internal.cfw7dinebswj.us-east-1.rds.amazonaws.com",
+                            'db_user': "$STG_TINYPULSE_PG_KDA_USR",
+                            'db_pass': "$STG_TINYPULSE_PG_KDA_PSW",
                         ],
                     ],
                 )

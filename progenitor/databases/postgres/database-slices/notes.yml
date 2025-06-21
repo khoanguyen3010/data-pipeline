@@ -3,8 +3,8 @@ sources:
   user: ENV:NOTES_DB_USER
   password: ENV:NOTES_DB_PASS
   databases:
-    ad_engine:
+    staging_coach_notes:
       schemas:
-        ad_engine:
+        public:
           truncate: []
           exclude: []

@@ -1,0 +1,10 @@
+sources:
+- host: ENV:COACH_STATS_DB_HOST
+  user: ENV:COACH_STATS_DB_USER
+  password: ENV:COACH_STATS_DB_PASS
+  databases:
+    staging_coach_stats:
+      schemas:
+        public:
+          truncate: []
+          exclude: []

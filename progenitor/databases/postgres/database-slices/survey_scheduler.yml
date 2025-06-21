@@ -1,0 +1,10 @@
+sources:
+- host: ENV:SURVEY_SCHEDULER_DB_HOST
+  user: ENV:SURVEY_SCHEDULER_DB_USER
+  password: ENV:SURVEY_SCHEDULER_DB_PASS
+  databases:
+    staging_survey_scheduler:
+      schemas:
+        public:
+          truncate: []
+          exclude: []
